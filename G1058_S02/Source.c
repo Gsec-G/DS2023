@@ -7,6 +7,7 @@ struct Angajat
 	char* nume;
 	double salariu;
 };
+
 typedef struct Angajat AngajatInfo;
 //management info utila stocata in HEAP
 AngajatInfo* creareAngajat(char*, double);
@@ -17,7 +18,6 @@ void main()
 	AngajatInfo angajat;
 	angajat.nume = NULL;
 	angajat.salariu = 100.4;
-
 	AngajatInfo* agenda[10];
 
 	FILE* pFile = fopen("Data.txt", "r");
