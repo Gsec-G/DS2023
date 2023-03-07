@@ -1,5 +1,5 @@
-Popescu Ioan, 1000.3
-Ionescu Maria, 1540.5
-Georgescu Andrei, 380.8
-Paunescu Robert, 2800.3
-Lazarescu Alexandru, 1200.3
+Popescu Ioan, 1000.3, 34
+Ionescu Maria, 1540.5, 27
+Georgescu Andrei, 380.8, 32790
+Paunescu Robert, 2800.3, 76
+Lazarescu Alexandru, 1200.3, 33540
