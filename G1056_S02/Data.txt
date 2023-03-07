@@ -1,5 +1,5 @@
-Popescu Maria, 1900.4
-Ionescu George, 1340.6
-Georgescu Robert, 370.7
-Antonescu Elena, 530.7
-Tomescu Catalin, 650.8
+Popescu Maria, 1900.4, 78
+Ionescu George, 1340.6, 33269
+Georgescu Robert, 370.7, 93
+Antonescu Elena, 530.7, 21
+Tomescu Catalin, 650.8, 35620

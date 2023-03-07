@@ -1,45 +1,71 @@
+//MOUNAJED KARIM-RICHARD
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <malloc.h>
 #include <string.h>
+#include <stdlib.h>
+union Referinta
+{
+	unsigned char refIntern; //1B
+	unsigned short refExtern; //2B
+};
 
-struct AngStruct
+typedef union Referinta RefInfo;
+struct Angajat
 {
 	char* nume;
 	double salariu;
+	RefInfo referinta;
 };
 
-typedef struct AngStruct Angajat;
+typedef struct Angajat AngInfo;
 //management memorie info utila
-Angajat* creareAngajat(char*, double);
-void* dezalocareAngajat(Angajat*);
-
+AngInfo* creareAngajat(char*, double);
+void* dezalocareAngajat(AngInfo*);
+#define LINE_SIZE 128
 void main()
 {
-	Angajat angajat;
+	AngInfo angajat;
 	angajat.nume = "Popescu Maria";
 	angajat.salariu = 23;
 
-	Angajat* agenda[10];
+	AngInfo* agenda[10];
+	memset(agenda, NULL, sizeof(agenda));
 
 	FILE* pFile = fopen("Data.txt", "r");
+	char* token; char separator[] = ",\n";
+	char lineBuffer[LINE_SIZE];
+	double salariu; unsigned short ref; char nume[LINE_SIZE];
 	if (pFile)
 	{
-		Angajat* angajat = creareAngajat("Popescu Maria", 1500.3);
+		int index = 0;
+		while (fgets(lineBuffer, sizeof(lineBuffer), pFile))
+		{
+			token = strtok(lineBuffer, separator);
+			strcpy(nume, token);
+			token = strtok(NULL, separator);
+			salariu = atof(token);
+			token = strtok(NULL, separator);
+			ref = atoi(token);
+			AngInfo* angajat = creareAngajat(nume, salariu, ref);
+			agenda[index++] = angajat;
+		}
+		
 		fclose(pFile);
 	}
 }
-Angajat* creareAngajat(const char* nume, double salariu)
+AngInfo* creareAngajat(const char* nume, double salariu, unsigned short ref)
 {
-	Angajat* result = NULL;
+	AngInfo* result = NULL;
 
-	result = (Angajat*)malloc(sizeof(Angajat));
+	result = (AngInfo*)malloc(sizeof(AngInfo));
 	result->nume = (char*)malloc((strlen(nume)));
 	strcpy(result->nume, nume);
 	result->salariu = salariu;
+	result->referinta.refExtern = ref;
 	return result;
 }
-void* dezalocareAngajat(Angajat* angajat)
+void* dezalocareAngajat(AngInfo* angajat)
 {
 	if (angajat != NULL)
 	{
