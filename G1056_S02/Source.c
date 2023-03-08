@@ -22,6 +22,7 @@ typedef struct Angajat AngInfo;
 //management memorie info utila
 AngInfo* creareAngajat(char*, double);
 void* dezalocareAngajat(AngInfo*);
+void afisareAngajati(AngInfo**, short);
 #define LINE_SIZE 128
 void main()
 {
@@ -51,7 +52,25 @@ void main()
 			agenda[index++] = angajat;
 		}
 		
+		afisareAngajati(agenda, sizeof(agenda)/sizeof(AngInfo*));
 		fclose(pFile);
+	}
+}
+
+void afisareAngajati(AngInfo** agenda, short noEl)
+{
+	for (int i = 0; i < noEl; i++)
+	{
+		if (agenda[i] != NULL)
+		{
+			printf("Nume: %s, salariu: %f\n", agenda[i]->nume, agenda[i]->salariu);
+			if (agenda[i]->referinta.refExtern >> 15 == 1)
+			{
+				char cid = agenda[i]->referinta.refExtern >> 8 & 127;
+				printf("Contractor: %d\n", cid);
+			}
+			printf("Referinta: %d\n", agenda[i]->referinta.refIntern);
+		}
 	}
 }
 AngInfo* creareAngajat(const char* nume, double salariu, unsigned short ref)

@@ -1,2 +1,4 @@
 ﻿  Source.c
+C:\Users\mdoinea\dev\vstudio\DS2023\G1065_S02\Source.c(38,22): warning C4047: 'function': 'int' differs in levels of indirection from 'void *'
+C:\Users\mdoinea\dev\vstudio\DS2023\G1065_S02\Source.c(38,18): warning C4024: 'memset': different types for formal and actual parameter 2
   G1065_S02.vcxproj -> C:\Users\mdoinea\dev\vstudio\DS2023\G1065_S02\Debug\G1065_S02.exe
