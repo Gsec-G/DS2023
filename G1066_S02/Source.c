@@ -26,6 +26,7 @@ typedef struct Stud Student;
 
 Student* createStudent(const char*, double, unsigned short);
 void* deleteStudent(Student*);
+void displayStudents(Student**, int);
 #define LINE_SIZE 128
 void main()
 {
@@ -36,6 +37,7 @@ void main()
 	student.income = 1300.5;
 	
 	Student* agenda[10];
+	memset(agenda, NULL, sizeof(agenda));
 
 	FILE* pFile = fopen("Data.txt","r");
 	if (pFile)
@@ -56,7 +58,27 @@ void main()
 			Student* stud = createStudent(name, income, ref);
 			agenda[index++] = stud;
 		}
-
+		displayStudents(agenda, sizeof(agenda)/sizeof(Student*));
+	}
+}
+void displayStudents(Student** agenda, int noEl)
+{
+	//10000001 00000011
+	//00000000 00000001
+	for (int i = 0; i < noEl; i++)
+	{
+		if (agenda[i]) {
+			printf("Name: %s, income: %f\n", agenda[i]->name, agenda[i]->income);
+			if (agenda[i]->reference.extRef >> 15 == 1)
+			{	//10000001 00000011
+				char univId = agenda[i]->reference.extRef >> 8 & 127;
+				//00000000 10000001
+				printf("University ref: %d\n", univId);
+				printf("External ref: %d\n", agenda[i]->reference.extRef & 255);
+			}
+			else
+				printf("Internal ref: %d\n", agenda[i]->reference.intRef);
+		}
 	}
 }
 //Student* student = (Student*)malloc()
