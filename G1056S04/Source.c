@@ -34,6 +34,8 @@ StudentInfo* createStudentInfo(const char*, double, unsigned short);
 void* deleteStudentInfo(StudentInfo*);
 void displayStudents(StudentInfo**, int);
 ListNode* createListNode(StudentInfo*);
+void printList(ListNode*);
+void insertNodeToTail(ListNode**, ListNode*);
 
 #define LINE_SIZE 128
 void main()
@@ -64,9 +66,10 @@ void main()
 			StudentInfo* stud = createStudentInfo(name, income, ref);
 			ListNode* node = createListNode(stud);
 			insertNodeToTail(&simpleLinkedList, node);
+
 			agenda[index++] = stud;
 		}
-		displayStudents(agenda, sizeof(agenda) / sizeof(StudentInfo*));
+		//displayStudents(agenda, sizeof(agenda) / sizeof(StudentInfo*));
 		printList(simpleLinkedList);
 		fclose(pFile);
 	}
