@@ -39,20 +39,17 @@ ListNode* insertNodeToEnd(ListNode*, ListNode*);
 void insertNodeToHead(ListNode**, ListNode*);
 void printList(ListNode*);
 #define LINE_SIZE 128
+
 void main()
 {
-	StudentInfo student;
-	student.name = "Popescu Maria";
-	student.income = 1400.3;
 	FILE* pFile = fopen("Data.txt", "r");
-
 	ListNode* simpleLinkedList1 = NULL;
 	ListNode* simpleLinkedList2 = NULL;
 
 	if (pFile)
 	{
 		StudentInfo* agenda[10];
-		memset(agenda, NULL, sizeof(agenda));
+		memset(agenda, 0, sizeof(agenda));
 		char* token; char delimiter[] = ",\n";
 		double income; unsigned short ref;
 		char lineBuffer[LINE_SIZE], name[LINE_SIZE];

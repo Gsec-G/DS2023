@@ -36,21 +36,18 @@ void displayStudents(StudentInfo**, int);
 ListNode* createListNode(StudentInfo*);
 void printList(ListNode*);
 void insertNodeToTail(ListNode**, ListNode*);
+ListNode* insertNodeToHead(ListNode*, ListNode*);
 
 #define LINE_SIZE 128
 void main()
 {
-	StudentInfo student;
-	student.name = "Popescu Maria";
-	student.income = 1400.3;
 	FILE* pFile = fopen("Data.txt", "r");
-
 	ListNode* simpleLinkedList = NULL;
 
 	if (pFile)
 	{
 		StudentInfo* agenda[10];
-		memset(agenda, NULL, sizeof(agenda));
+		memset(agenda, 0, sizeof(agenda));
 		char* token; char delimiter[] = ",\n";
 		double income; unsigned short ref;
 		char lineBuffer[LINE_SIZE], name[LINE_SIZE];
@@ -65,8 +62,8 @@ void main()
 			ref = atoi(token);
 			StudentInfo* stud = createStudentInfo(name, income, ref);
 			ListNode* node = createListNode(stud);
-			insertNodeToTail(&simpleLinkedList, node);
-
+			//insertNodeToTail(&simpleLinkedList, node);
+			simpleLinkedList = insertNodeToHead(simpleLinkedList, node);
 			agenda[index++] = stud;
 		}
 		//displayStudents(agenda, sizeof(agenda) / sizeof(StudentInfo*));
@@ -74,11 +71,16 @@ void main()
 		fclose(pFile);
 	}
 }
+ListNode* insertNodeToHead(ListNode* list, ListNode* node)
+{
+	node->next = list;
+	return node;
+}
 void displayStudent(StudentInfo* stud)
 {
 	if (stud)
 	{
-		printf("Name: %s, income: %f\n", stud->name, stud->income);
+		printf("Name: %s, income: %.2f\n", stud->name, stud->income);
 		if (stud->reference.extRef >> 15 == 1)
 		{
 			short uid = stud->reference.extRef >> 8 & 127;
