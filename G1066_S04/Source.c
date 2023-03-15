@@ -34,8 +34,10 @@ StudentInfo* createStudentInfo(const char*, double, unsigned short);
 void* deleteStudentInfo(StudentInfo*);
 void displayStudents(StudentInfo**, int);
 void displayStudent(StudentInfo*);
+void printList(ListNode* list);
+ListNode* insertListNodeTail(ListNode*, ListNode*);
+ListNode* insertListNodeFront(ListNode*, ListNode*);
 ListNode* createNode(StudentInfo*);
-void insertNode(ListNode**, ListNode*);
 
 #define LINE_SIZE 128
 void main()
@@ -65,37 +67,14 @@ void main()
 			ref = atoi(token);
 			StudentInfo* stud = createStudentInfo(name, income, ref);
 			ListNode* node = createNode(stud);
-			insertNode(&simpleLinkedList, node);
+			simpleLinkedList = insertListNodeFront(simpleLinkedList, node);
+			//simpleLinkedList = insertListNodeTail(simpleLinkedList, node);
 			agenda[index++] = stud;
 		}
 		printList(simpleLinkedList);
-
-		StudentInfo* info = createStudentInfo("Popescu Eugen", 1300.34, 38767);
-		ListNode* node = createNode(info);
-		int index = 3;
-		simpleLinkedList = insertOnPosition(simpleLinkedList, node, index);
-
-		displayStudents(agenda, sizeof(agenda) / sizeof(StudentInfo*));
+		//displayStudents(agenda, sizeof(agenda) / sizeof(StudentInfo*));
 		fclose(pFile);
 	}
-}
-
-ListNode* insertOnPosition(ListNode* list, ListNode* node, int index)
-{
-
-	if (index == 1)
-	{
-		node->next = list;
-		return node;
-	}
-	int i = 1;
-	while (list->next && i < index-1)
-	{
-		i++;
-		list = list->next;
-	}
-
-
 }
 
 void printList(ListNode* list)
@@ -106,18 +85,25 @@ void printList(ListNode* list)
 		list = list->next;
 	}
 }
-
-void insertNode(ListNode** list, ListNode* node)
+ListNode* insertListNodeTail(ListNode* list, ListNode* node)
 {
-	if (*list == NULL)
-		*list = node;
+
+	if (list == NULL)
+		return node;
 	else
 	{
-		ListNode* aux = *list;
-		while (aux->next)
-			aux = aux->next;
-		aux->next = node;
+		ListNode* head = list;
+		while (list->next)
+			list = list->next;
+		list->next = node;
+		return head;
 	}
+}
+ListNode* insertListNodeFront(ListNode* list, ListNode* node)
+{
+	node->next = list;
+	return node;
+
 }
 
 ListNode* createNode(StudentInfo* stud)
@@ -128,12 +114,11 @@ ListNode* createNode(StudentInfo* stud)
 	result->next = NULL;
 	return result;
 }
-
 void displayStudent(StudentInfo* stud)
 {
 	if (stud)
 	{
-		printf("Name: %s, income: %f\n", stud->name, stud->income);
+		printf("Name: %s, income: %.2f\n", stud->name, stud->income);
 		if (stud->reference.extRef >> 15 == 1)
 		{
 			short uid = stud->reference.extRef >> 8 & 127;
