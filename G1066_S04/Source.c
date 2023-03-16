@@ -38,21 +38,18 @@ void printList(ListNode* list);
 ListNode* insertListNodeTail(ListNode*, ListNode*);
 ListNode* insertListNodeFront(ListNode*, ListNode*);
 ListNode* createNode(StudentInfo*);
+void insertListNodePosition(ListNode**, ListNode*, int);
 
 #define LINE_SIZE 128
 void main()
 {
-	StudentInfo student;
-	student.name = "Popescu Maria";
-	student.income = 1400.3;
 	FILE* pFile = fopen("Data.txt", "r");
-
 	ListNode* simpleLinkedList = NULL;
 
 	if (pFile)
 	{
 		StudentInfo* agenda[10];
-		memset(agenda, NULL, sizeof(agenda));
+		memset(agenda, 0, sizeof(agenda));
 		char* token; char delimiter[] = ",\n";
 		double income; unsigned short ref;
 		char lineBuffer[LINE_SIZE], name[LINE_SIZE];
@@ -67,16 +64,46 @@ void main()
 			ref = atoi(token);
 			StudentInfo* stud = createStudentInfo(name, income, ref);
 			ListNode* node = createNode(stud);
-			simpleLinkedList = insertListNodeFront(simpleLinkedList, node);
-			//simpleLinkedList = insertListNodeTail(simpleLinkedList, node);
+			//simpleLinkedList = insertListNodeFront(simpleLinkedList, node);
+			simpleLinkedList = insertListNodeTail(simpleLinkedList, node);
 			agenda[index++] = stud;
 		}
+
+		StudentInfo* info = createStudentInfo("Popescu Elena", 1200.23, 39800);
+		ListNode* node = createNode(info);
+		int position = 6;
+		insertListNodePosition(&simpleLinkedList, node, position);
+
 		printList(simpleLinkedList);
 		//displayStudents(agenda, sizeof(agenda) / sizeof(StudentInfo*));
 		fclose(pFile);
 	}
 }
 
+void insertListNodePosition(ListNode** list, ListNode* node, int index)
+{
+	if (index == 1)
+		*list = insertListNodeFront(*list, node);
+	else
+	{
+		int i = 1;
+		ListNode* aux = *list;
+		while (aux->next != NULL && i < index - 1)
+		{
+			aux = aux->next;
+			i++;
+		}
+		if (aux->next == NULL)
+		{
+			aux->next = insertListNodeTail(aux->next, node);
+		}
+		else
+		{
+			node->next = aux->next;
+			aux->next = node;
+		}
+	}
+}
 void printList(ListNode* list)
 {
 	while (list)
@@ -105,7 +132,6 @@ ListNode* insertListNodeFront(ListNode* list, ListNode* node)
 	return node;
 
 }
-
 ListNode* createNode(StudentInfo* stud)
 {
 	ListNode* result = NULL;
@@ -147,7 +173,6 @@ void* deleteStudentInfo(StudentInfo* stud)
 	}
 	return NULL;
 }
-
 StudentInfo* createStudentInfo(const char* name, double income, unsigned short ref)
 {
 	StudentInfo* result = NULL;
