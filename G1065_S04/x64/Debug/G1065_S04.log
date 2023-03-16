@@ -1,6 +1,2 @@
 ﻿  Source.c
-C:\Users\mdoinea\dev\vstudio\DS2023\G1065_S04\Source.c(53,22): warning C4047: 'function': 'int' differs in levels of indirection from 'void *'
-C:\Users\mdoinea\dev\vstudio\DS2023\G1065_S04\Source.c(53,18): warning C4024: 'memset': different types for formal and actual parameter 2
-C:\Users\mdoinea\dev\vstudio\DS2023\G1065_S04\Source.c(68,31): warning C4047: 'function': 'ListNode **' differs in levels of indirection from 'ListNode *'
-C:\Users\mdoinea\dev\vstudio\DS2023\G1065_S04\Source.c(68,15): warning C4024: 'insertNode': different types for formal and actual parameter 1
   G1065_S04.vcxproj -> C:\Users\mdoinea\dev\vstudio\DS2023\G1065_S04\x64\Debug\G1065_S04.exe
