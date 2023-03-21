@@ -25,6 +25,8 @@ typedef struct Student StudentInfo;
 StudentInfo* createStudentInfo(const char*, double, unsigned short);
 void* deleteStudentInfo(StudentInfo*);
 void displayStudents(StudentInfo**, int);
+void displayStudent(StudentInfo*);
+
 #define LINE_SIZE 128
 
 void main()
@@ -33,7 +35,7 @@ void main()
 	if (pFile)
 	{
 		StudentInfo* agenda[10];
-		memset(agenda, NULL, sizeof(agenda));
+		memset(agenda, 0, sizeof(agenda));
 		char* token; char delimiter[] = ",\n";
 		double income; unsigned short ref;
 		char lineBuffer[LINE_SIZE], name[LINE_SIZE];
