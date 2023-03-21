@@ -21,6 +21,16 @@ struct Student
 
 typedef struct Student StudentInfo;
 
+struct Node
+{
+	StudentInfo* info;
+	struct Node* next;
+	struct Node* prev;
+};
+
+typedef struct Node ListNode;
+
+
 //useful info memory management
 StudentInfo* createStudentInfo(const char*, double, unsigned short);
 void* deleteStudentInfo(StudentInfo*);
@@ -53,24 +63,38 @@ void main()
 		fclose(pFile);
 	}
 }
+
+ListNode* createNode(StudentInfo* stud)
+{
+	ListNode* result = NULL;
+	result = (ListNode*)malloc(sizeof(ListNode));
+	result->info = stud;
+	result->next = result->prev = NULL;
+	return result;
+}
+
+void displayStudent(StudentInfo* stud)
+{
+	if (stud)
+	{
+		printf("Name: %s, income: %f\n", stud->name, stud->income);
+		if (stud->reference.extRef >> 15 == 1)
+		{
+			short uid = stud->reference.extRef >> 8 & 127;
+			printf("University ref: %d\n", uid);
+			printf("External ref: %d\n", stud->reference.extRef & 255);
+		}
+		else
+		{
+			printf("Internal ref: %d\n", stud->reference.intRef);
+		}
+	}
+}
 void displayStudents(StudentInfo** agenda, int noEl)
 {
 	for (int i = 0; i < noEl; i++)
 	{
-		if (agenda[i])
-		{
-			printf("Name: %s, income: %f\n", agenda[i]->name, agenda[i]->income);
-			if (agenda[i]->reference.extRef >> 15 == 1)
-			{
-				short uid = agenda[i]->reference.extRef >> 8 & 127;
-				printf("University ref: %d\n", uid);
-				printf("External ref: %d\n", agenda[i]->reference.extRef & 255);
-			}
-			else
-			{
-				printf("Internal ref: %d\n", agenda[i]->reference.intRef);
-			}
-		}
+		displayStudent(agenda[i]);
 	}
 }
 void* deleteStudentInfo(StudentInfo* stud)
