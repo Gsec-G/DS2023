@@ -53,28 +53,24 @@ void main()
 		fclose(pFile);
 	}
 }
-void displayStudent(StudentInfo* stud)
-{
-	if (stud)
-	{
-		printf("Name: %s, income: %f\n", stud->name, stud->income);
-		if (stud->reference.extRef >> 15 == 1)
-		{
-			short uid = stud->reference.extRef >> 8 & 127;
-			printf("University ref: %d\n", uid);
-			printf("External ref: %d\n", stud->reference.extRef & 255);
-		}
-		else
-		{
-			printf("Internal ref: %d\n", stud->reference.intRef);
-		}
-	}
-}
 void displayStudents(StudentInfo** agenda, int noEl)
 {
 	for (int i = 0; i < noEl; i++)
 	{
-		displayStudent(agenda[i]);
+		if (agenda[i])
+		{
+			printf("Name: %s, income: %f\n", agenda[i]->name, agenda[i]->income);
+			if (agenda[i]->reference.extRef >> 15 == 1)
+			{
+				short uid = agenda[i]->reference.extRef >> 8 & 127;
+				printf("University ref: %d\n", uid);
+				printf("External ref: %d\n", agenda[i]->reference.extRef & 255);
+			}
+			else
+			{
+				printf("Internal ref: %d\n", agenda[i]->reference.intRef);
+			}
+		}
 	}
 }
 void* deleteStudentInfo(StudentInfo* stud)

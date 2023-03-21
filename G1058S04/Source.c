@@ -64,7 +64,7 @@ void main()
 			ref = atoi(token);
 			StudentInfo* stud = createStudentInfo(name, income, ref);
 			ListNode* node = createNode(stud);
-			//simpleLinkedList1 = insertNodeToEnd(simpleLinkedList1, node);
+			simpleLinkedList1 = insertNodeToEnd(simpleLinkedList1, node);
 			insertNodeToHead(&simpleLinkedList2, node);
 			agenda[index++] = stud;
 		}
