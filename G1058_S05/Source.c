@@ -23,8 +23,8 @@ typedef struct Student StudentInfo;
 
 struct Node
 {
-	StudentInfo* info;
 	struct Node* next;
+	StudentInfo* info;
 	struct Node* prev;
 };
 
@@ -35,11 +35,17 @@ typedef struct Node ListNode;
 StudentInfo* createStudentInfo(const char*, double, unsigned short);
 void* deleteStudentInfo(StudentInfo*);
 void displayStudents(StudentInfo**, int);
+ListNode* createNode(StudentInfo*);
+void insertNodeByPos(ListNode**, ListNode*, int);
+void printList(ListNode*);
+void displayStudent(StudentInfo*);
+
 #define LINE_SIZE 128
 
 void main()
 {
 	FILE* pFile = fopen("Data.txt", "r");
+	ListNode* doubleLinkedList = NULL;
 	if (pFile)
 	{
 		StudentInfo* agenda[10];
@@ -57,12 +63,70 @@ void main()
 			token = strtok(NULL, delimiter);
 			ref = atoi(token);
 			StudentInfo* stud = createStudentInfo(name, income, ref);
+			ListNode* node = createNode(stud);
+			insertNodeByPos(&doubleLinkedList, node, index);
 			agenda[index++] = stud;
 		}
-		displayStudents(agenda, sizeof(agenda) / sizeof(StudentInfo*));
+		//displayStudents(agenda, sizeof(agenda) / sizeof(StudentInfo*));
+		printList(doubleLinkedList);
 		fclose(pFile);
 	}
 }
+
+void printList(ListNode* list)
+{
+	while (list->next)
+	{
+		displayStudent(list->info);
+		list = list->next;
+	}
+	displayStudent(list->info);
+	while (list)
+	{
+		displayStudent(list->info);
+		list = list->prev;
+	}
+}
+
+void insertNodeByPos(ListNode** list, ListNode* node, int position)
+{
+
+	if (position <= 0)
+	{
+		node->next = *list;
+		if (*list != NULL)
+		{
+			(*list)->prev = node;
+		}
+		*list = node;
+	}
+	else
+	{
+		int index = 0;
+		ListNode* aux = *list;
+		while (aux->next && index < position - 1)
+		{
+			aux = aux->next;
+			index++;
+		}
+		if (aux->next == NULL)
+		{
+			node->prev = aux;
+			aux->next = node;
+		}
+		else
+		{
+			node->prev = aux;
+			node->next = aux->next;
+			aux->next->prev = node;
+			aux->next = node;
+			//aux->next = node;
+			//aux->next->next->prev = node;
+			//node->next->prev = node;
+		}
+	}
+}
+
 
 ListNode* createNode(StudentInfo* stud)
 {
