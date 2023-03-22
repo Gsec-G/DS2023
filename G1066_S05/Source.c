@@ -39,6 +39,7 @@ ListNode* createNode(StudentInfo*);
 void insertAtHead(ListNode**, ListNode*);
 ListNode* insertAtTail(ListNode*, ListNode*);
 void printList(ListNode*);
+void insertAfterKey(ListNode*, ListNode*, const char*);
 
 #define LINE_SIZE 128
 
@@ -72,10 +73,27 @@ void main()
 		//displayStudents(agenda, sizeof(agenda) / sizeof(StudentInfo*));
 		StudentInfo* info = createStudentInfo("Popa Maria", 2300.4, 38977);
 		ListNode* node = createNode(info);
-		char* key = "Antonesc Robert";
-		insertAfterKey(doubleLinkedList, node, key);
+
+		char* key = "Calinescu Elena";
+		//insertAfterKey(doubleLinkedList, node, key);
+		
+		insertOnEvenPositions(doubleLinkedList, node);
 		printList(doubleLinkedList);
 		fclose(pFile);
+	}
+}
+
+void insertAfterKey(ListNode* list, ListNode* node, const char* key)
+{
+	while (list && strcmp(key, list->info->name) != 0)
+		list = list->next;
+	if (list)
+	{
+		node->next = list->next;
+		node->prev = list;
+		if (list->next)
+			list->next->prev = node;
+		list->next = node;
 	}
 }
 
@@ -87,11 +105,11 @@ void printList(ListNode* list)
 		list = list->next;
 	}
 	displayStudent(list->info);
-	while (list)
+	/*while (list)
 	{
 		displayStudent(list->info);
 		list = list->prev;
-	}
+	}*/
 }
 
 void insertAtHead(ListNode** list, ListNode* node)
