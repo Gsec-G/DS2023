@@ -78,10 +78,16 @@ void main()
 }
 void printList(ListNode* list)
 {
-	while (list)
+	while (list->next)
 	{
 		displayStudent(list->info);
 		list = list->next;
+	}
+	displayStudent(list->info);
+	while (list)
+	{
+		displayStudent(list->info);
+		list = list->prev;
 	}
 }
 
