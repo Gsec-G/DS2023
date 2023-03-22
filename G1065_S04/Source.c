@@ -102,8 +102,6 @@ ListNode* insertOnPosition(ListNode* list, ListNode* node, int index)
 		aux->next = node;
 	}
 	return list;
-
-
 }
 void printList(ListNode* list)
 {
